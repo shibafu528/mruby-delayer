@@ -5,6 +5,14 @@ module Delayer
     attr_accessor :expire
     attr_reader :exception
 
+    unless const_defined?(:Mutex)
+      class Mutex
+        def synchronize
+          yield
+        end
+      end
+    end
+
     def self.extended(klass)
       klass.class_eval do
         @first_pointer = @last_pointer = nil

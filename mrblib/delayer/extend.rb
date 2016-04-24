@@ -116,8 +116,8 @@ module Delayer
       self
     end
 
-    def register_remain_hook
-      @remain_hook = Proc.new
+    def register_remain_hook(&proc)
+      @remain_hook = Proc.new(&proc)
     end
 
     private

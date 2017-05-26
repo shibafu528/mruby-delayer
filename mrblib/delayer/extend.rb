@@ -48,7 +48,7 @@ module Delayer
     end
 
     def expire?
-      if defined?(@end_time) and @end_time
+      if instance_variable_defined?(:@end_time) and @end_time
         @end_time < Time.new.to_f
       else
         false

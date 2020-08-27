@@ -13,6 +13,14 @@ module Delayer
     end
   end
 
+  unless const_defined?(:Monitor)
+    class Monitor
+      def synchronize
+        yield
+      end
+    end
+  end
+
   def self.included(klass)
     klass.class_eval do
       extend Extend
@@ -94,7 +102,7 @@ module Delayer
     end
 
     def expire?
-      if defined?(@end_time) && @end_time
+      if instance_variable_defined?(:@end_time) && @end_time
         @end_time < Time.new.to_f
       else
         false

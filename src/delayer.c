@@ -1,13 +1,22 @@
 #include <mruby.h>
 #include <time.h>
+#include <errno.h>
 
 static mrb_value process_clock_gettime(mrb_state *mrb, mrb_value self) {
-  struct timespec ts = {};
-  if (clock_gettime(CLOCK_MONOTONIC, &ts) == 0) {
-    return mrb_fixnum_value(ts.tv_sec);
-  } else {
-    mrb_raise(mrb, E_RUNTIME_ERROR, "clock_gettime() error");
+  mrb_value clock_id = mrb_get_arg1(mrb);
+  if (!mrb_fixnum_p(clock_id)) {
     return mrb_nil_value();
+  }
+
+  struct timespec ts = {};
+  if (clock_gettime(mrb_fixnum(clock_id), &ts) == 0) {
+#ifdef MRB_WITHOUT_FLOAT
+    return mrb_fixnum_value(ts.tv_sec);
+#else
+    return mrb_float_value(mrb, (mrb_float) ts.tv_sec + (mrb_float) ts.tv_nsec/1.0e9);
+#endif
+  } else {
+    mrb_raisef(mrb, E_RUNTIME_ERROR, "clock_gettime() error %d", errno);
   }
 }
 

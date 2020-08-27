@@ -1,22 +1,23 @@
-# Delayer
+# Delayer for mruby
 
-[![toshia](https://circleci.com/gh/toshia/delayer.svg?style=svg)](https://circleci.com/gh/toshia/delayer)
+[delayer](https://github.com/toshia/delayer) gemをmrubyにポーティングしたものです。
+
+## Original Description
 
 Delay Any task. Similar priority-queue.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add conf.gem line to your `build_config.rb`:
 
-    gem 'delayer'
+```ruby
+MRuby::Build.new do |conf|
 
-And then execute:
+    # ... (snip) ...
 
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install delayer
+    conf.gem :github => 'shibafu528/mruby-delayer', :branch => 'mruby'
+end
+```
 
 ## Usage
 

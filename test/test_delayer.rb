@@ -1,11 +1,6 @@
 # -*- coding: utf-8 -*-
 
-require 'rubygems'
-require 'bundler/setup'
-require 'test/unit'
-require 'delayer'
-
-class TestDelayer < Test::Unit::TestCase
+class TestDelayer < MTest::Unit::TestCase
   def setup
     Delayer.default = nil
   end
@@ -258,23 +253,23 @@ class TestDelayer < Test::Unit::TestCase
     assert_equal(3, a)
   end
 
-  def test_multithread_register
-    delayer = Delayer.generate_class
-    buffer = []
-    threads = []
-    10.times do
-      threads << Thread.new do
-        1000.times do |number|
-          delayer.new { buffer << number }
-        end
-      end
-    end
-    delayer.run
-    threads.each(&:join)
-    delayer.run
-    assert_equal(10000, buffer.size)
-    assert_equal((0..999).inject(&:+)*10, buffer.inject(&:+))
-  end
+  # def test_multithread_register
+  #   delayer = Delayer.generate_class
+  #   buffer = []
+  #   threads = []
+  #   10.times do
+  #     threads << Thread.new do
+  #       1000.times do |number|
+  #         delayer.new { buffer << number }
+  #       end
+  #     end
+  #   end
+  #   delayer.run
+  #   threads.each(&:join)
+  #   delayer.run
+  #   assert_equal(10000, buffer.size)
+  #   assert_equal((0..999).inject(&:+)*10, buffer.inject(&:+))
+  # end
 
   def test_nested
     delayer = Delayer.generate_class
@@ -461,4 +456,10 @@ class TestDelayer < Test::Unit::TestCase
     assert_equal(5, a)
   end
 
+end
+
+if $ok_test
+  MTest::Unit.new.mrbtest
+else
+  MTest::Unit.new.run
 end

@@ -8,5 +8,9 @@ MRuby::Gem::Specification.new('mruby-delayer') do |spec|
   spec.description = %q{Delay the processing}
 
   spec.add_dependency 'mruby-struct', core: 'mruby-struct'
-  spec.add_dependency 'mruby-set', mgem: 'mruby-set'
+  spec.add_dependency 'mruby-set', github: 'mruby-Forum/mruby-set', branch: 'support-mruby-2.0.0'
+
+  spec.add_test_dependency 'mruby-mtest', mgem: 'mruby-mtest'
+  spec.add_test_dependency 'mruby-sleep', core: 'mruby-sleep'
+  spec.add_test_dependency 'mruby-random', core: 'mruby-random'
 end

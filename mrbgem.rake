@@ -7,6 +7,7 @@ MRuby::Gem::Specification.new('mruby-delayer') do |spec|
   spec.summary     = %q{Delay the processing}
   spec.description = %q{Delay the processing}
 
+  spec.add_dependency 'mruby-metaprog', core: 'mruby-metaprog'
   spec.add_dependency 'mruby-struct', core: 'mruby-struct'
   spec.add_dependency 'mruby-set', github: 'mruby-Forum/mruby-set', branch: 'support-mruby-2.0.0'
 

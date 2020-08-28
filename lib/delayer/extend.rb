@@ -65,7 +65,7 @@ module Delayer
       end
     end
 
-    def pop_reserve(start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC))
+    def pop_reserve(start_time = ticks)
       if @last_reserve&.reserve_at&.<=(start_time)
         lock.synchronize do
           while @last_reserve&.reserve_at&.<=(start_time)
@@ -83,13 +83,13 @@ module Delayer
     # ==== Return
     # self
     def run(current_expire = @expire)
-      start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+      start_time = ticks
       pop_reserve(start_time)
       if current_expire == 0
         run_once_without_pop_reserve until empty?
       else
         @end_time = start_time + @expire
-        run_once_without_pop_reserve while !empty? && (@end_time >= Process.clock_gettime(Process::CLOCK_MONOTONIC))
+        run_once_without_pop_reserve while !empty? && (@end_time >= ticks)
         @end_time = nil
       end
       if @remain_hook

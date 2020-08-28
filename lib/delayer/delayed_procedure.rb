@@ -10,9 +10,9 @@ module Delayer
       @proc = proc
       case delay
       when Time
-        @reserve_at = Process.clock_gettime(Process::CLOCK_MONOTONIC) + delay.to_f - Time.now.to_f
+        @reserve_at = delayer.class.ticks + delay.to_f - Time.now.to_f
       else
-        @reserve_at = Process.clock_gettime(Process::CLOCK_MONOTONIC) + delay.to_f
+        @reserve_at = delayer.class.ticks + delay.to_f
       end
       @cancel = nil
       @procedure = nil
